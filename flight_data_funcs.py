@@ -8,13 +8,16 @@ from datetime import datetime
 import pandas as pd
 
 #!pip install scipy
-import scipy.io
+from scipy.io import loadmat
 
 from IPython.display import clear_output
 import plotly_express as px
 import plotly.graph_objs as go
 
 from pyspark.sql import SparkSession
+
+from s3fs import S3FileSystem
+import boto3
 
 __author__ = "Jesus Martinez"
 __email__ = "jesus.martinez89@hotmail.com"
@@ -35,6 +38,7 @@ logging.basicConfig(
     handlers=[logging.FileHandler("newfile.log"), logging.StreamHandler()],
 )
 
+
 def get_aws_credentials():
     with open(os.path.expanduser("~/.aws/credentials")) as f:
         for line in f:
@@ -53,24 +57,88 @@ def get_aws_credentials():
     return aws_session_token, AWS_SECRET_ACCESS_KEY, AWS_ACCESS_KEY_ID
 
 
-def get_paths(paths: list):
-    """_summary_
+class ListingMatFiles:
+    """_summary_"""
 
-    Args:
-        paths (list): _description_
+    def __init__(self, bucket="", key="", aws=False):
 
-    Returns:
-        _type_: _description_
-    """
-    allpaths = dict()
-    for path in paths:
-        files = os.listdir(f"extracted_data/{path}")
-        allpaths[path] = list()
-        for key in files:
-            clear_output()
-            temp = f"extracted_data/{path}/{key}"
-            allpaths[path].append(temp)
-    return allpaths
+        if aws:
+            self.bucket = bucket
+            self.key = key
+            self.init_aws()
+
+    def init_aws(self):
+        """_summary_"""
+        self.s3fs = S3FileSystem()
+        self.s3 = boto3.client("s3")
+        self.s3r = boto3.resource("s3")
+        self.s3bucket = self.s3r.Bucket(self.bucket)
+        self.result = self.s3.list_objects(Bucket=self.bucket, Prefix=self.key)
+
+    def read_file(self, key):
+        """_summary_
+
+        Args:
+            key (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        with self.s3fs.open(f"{self.bucket}/{key}", "rb") as file:
+            return loadmat(file)
+
+    def get_object_list(self, key):
+        """_summary_
+
+        Args:
+            key (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        return self.s3bucket.objects.filter(Prefix=key)
+
+    def read_files(self, obj):
+        """_summary_
+
+        Args:
+            obj (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        key = obj.key
+        return self.read_file(key)
+
+    def gen_obj_list(self):
+        """_summary_
+
+        Returns:
+            _type_: _description_
+        """
+        objects_list = list()
+        for obj in self.get_object_list(self.key):
+            objects_list.append(obj)
+        return objects_list
+
+    def get_local_paths(self, paths: list):
+        """_summary_
+
+        Args:
+            paths (list): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        allpaths = dict()
+        for path in paths:
+            files = os.listdir(f"extracted_data/{path}")
+            allpaths[path] = list()
+            for key in files:
+                clear_output()
+                temp = f"extracted_data/{path}/{key}"
+                allpaths[path].append(temp)
+        return allpaths
 
 
 class Unzipping:
@@ -116,7 +184,7 @@ class Unzipping:
 class Parsing:
     """_summary_"""
 
-    def __init__(self, file: str, verbose: bool):
+    def __init__(self, file: str, verbose: bool, aws=False):
         """_summary_
 
         Args:
@@ -125,7 +193,7 @@ class Parsing:
         """
         self.file = file
         self.verbose = verbose
-        self.mat = scipy.io.loadmat(file)
+        self.mat = loadmat(file) if not aws else file
         self.mat_keys = list(self.mat.keys())
         keys_to_drop = ["__header__", "__version__", "__globals__"]
         list(map(lambda x: self.mat_keys.remove(x), keys_to_drop))
