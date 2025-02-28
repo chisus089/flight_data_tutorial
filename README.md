@@ -233,7 +233,7 @@ renamed_dataframe.columns
 
 A data catalog is a logical agroupation of databases, furthermore databases are logical agroupations of tables. So the hierarchy is data catalog cointans databases which cointans tables. AWS has a AwsDataCatalog created by default. For the moment this catalog will be used.
 
-If you wish to create a new data catalog, you may need to modify default glue/spark configuration options.
+To create a new data catalog, default glue/spark/awswrangler configuration options may need to be modified.
 
 Refer to following links for more information on catalog creation:
 
