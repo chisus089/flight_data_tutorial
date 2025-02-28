@@ -154,9 +154,9 @@ print(root, tail, filename)
 
 ```
 
-![alt text](image-9.png)
+![alt text](imgs/image29.png)
 
-![alt text](image-3.png)
+![alt text](imgs/image23.png)
 
 
 #### read-s3-boto3
@@ -182,7 +182,7 @@ print(dataframe.shape)
 print (tail, filename)
 ```
 
-![alt text](image-10.png)
+![alt text](imgs/image18.png)
 
 
 Notice how in both previous cases both tail and filename are stored in variables, regardless the source of the .MAT file. These two variables are used later while saving to a database.
@@ -205,11 +205,11 @@ figs.create_alt_figure(dataframe)
 figs.create_acc_figure(dataframe)
 ```
 
-![alt text](image-5.png)
+![alt text](imgs/image15.png)
 
-![alt text](image-6.png)
+![alt text](imgs/image16.png)
 
-![alt text](image-7.png)
+![alt text](imgs/image17.png)
 
 
 
@@ -225,7 +225,7 @@ renamed_dataframe = flight_data_funcs.ETLing().rename_col_ifduplicated(dataframe
 renamed_dataframe.columns
 ```
 
-![alt text](image-8.png)
+![alt text](imgs/image10.png)
 
 
 #### write-s3-parquet
@@ -264,7 +264,7 @@ write_to_aws(dataframe, tail, filename)
 ```
 
 
-![alt text](image-14.png)
+![alt text](imgs/image9.png)
 
 #### analyze
 ## Analyze NASA dataset with SQL
@@ -282,7 +282,7 @@ FROM "flight_data"."tail_658_1_658200105012013_mat"
 LIMIT 10
 ```
 
-![alt text](image-13.png)
+![alt text](imgs/image8.png)
 
 
 
