@@ -90,7 +90,7 @@ list(map(unzipper.extract_from_zip, file_list))
 
 ```
 
-![alt text](image-4.png)
+![alt text](imgs/image24.png)
 
 2. After extracting, you should be able to see a folder for each zip file, each folder with a few `.MAT` files
 
