@@ -238,6 +238,7 @@ If you wish to create a new data catalog, you may need to modify default glue/sp
 Refer to following links for more information on catalog creation:
 
 https://docs.aws.amazon.com/lake-formation/latest/dg/creating-catalog.html
+
 https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-syntax-ddl-create-catalog
 
 
