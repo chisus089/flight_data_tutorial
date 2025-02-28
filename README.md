@@ -302,7 +302,7 @@ LIMIT 10
 
 ## Team
 
-<img src="https://avatars.githubusercontent.com/u/39705698?v=4 " alt="Jesus Martinez" width="30%">
+<img src="https://avatars.githubusercontent.com/u/39705698?v=4 " alt="Jesus Martinez" width="30%" style="border-radius: 50%" >
 
 [Jesus Jorge Martinez Rios](https://www.linkedin.com/in/jesusjmartinezr/) 
 
