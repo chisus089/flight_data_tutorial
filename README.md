@@ -243,7 +243,7 @@ https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-syntax-ddl-create
 
 ```
 from awswrangler import catalog
-
+from awswrangler.s3 import to_parquet
 
 def write_to_aws(dataframe, tail, filename, database_name='flight_data'):
 
