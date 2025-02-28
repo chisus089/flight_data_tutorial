@@ -178,7 +178,7 @@ class Unzipping:
         tail = file_name.split(".")[0]
         # opening the zip file in READ mode
         with ZipFile(f"zip_data/{file_name}", "r") as zipped:
-            extract_all(zipped, tail)
+            self.extract_all(zipped, tail)
 
 
 class Parsing:
